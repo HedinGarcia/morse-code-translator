@@ -1,6 +1,5 @@
 `timescale 1ns / 1ps
 
-
 // Test bench for Sequence Producer
 
 module test_pwm();
@@ -39,16 +38,12 @@ module test_pwm();
         Space = 1'b0; #10;
         
         // Second Sequence to test: [ , , , , ]
-        Clear = 1'b1; #10
-        Clear = 1'b0; #10
         
         // Send a Space Signal
         Space = 1'b1; #10;
         Space = 1'b0; #10;
         
-        // Third Sequence to test: [ , , , , ]
-        Reset = 1'b1; #10
-        Reset = 1'b0; #10
+        // Third Sequence to test: [00, 01, 00, 00, ]
         
         // Send a Dot signal
         Dot = 1'b1; #10;
