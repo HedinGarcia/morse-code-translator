@@ -44,16 +44,12 @@ module test_seq_sep();
         EndSeq = 1'b0; #10;
         
         // Second Sequence to test: [ , , , , ]
-        Clear = 1'b1; #10
-        Clear = 1'b0; #10
         
         // Send a Space Signal
         Space = 1'b1; #10;
         Space = 1'b0; #10;
         
         // Third Sequence to test: [ 00, 00, 00, 01, 01]
-        Reset = 1'b1; #10;
-        Reset = 1'b0; #10;
         
         // Send a Dot signal
         Dot = 1'b1; #10;
@@ -80,9 +76,26 @@ module test_seq_sep();
         Space = 1'b0; #10;
         
         // Fourth Sequence to test: [ , , , , ]
-        Clear = 1'b1; #10
-        Clear = 1'b0; #10
         
+        // Send a EndsSeq Signal
+        EndSeq = 1'b1; #10;
+        EndSeq = 1'b0; #10;
+
+        // Fifth Sequence to test: [ , , , , ]
+        // Clear halfway:
+        
+        // Send a Dot signal
+        Dot = 1'b1; #10;
+        Dot = 1'b0; #10;
+
+        // Send a Clear Signal
+        Clear = 1'b1; #10;
+        Clear = 1'b0; #10;
+
+        // Send a Reset Signal
+        Reset = 1'b1; #10;
+        Reset = 1'b0; #10;
+
         // Send a EndsSeq Signal
         EndSeq = 1'b1; #10;
         EndSeq = 1'b0; #10;
