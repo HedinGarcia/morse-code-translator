@@ -6,11 +6,16 @@ module sequence_producer(
     input [2:0] Signals,
     input Clear, Reset, 
     output reg [9:0] EncSeq,
-    output reg Space_EndSeqbar
+    output reg Space_EndSeqbar, SentFlag
     );
     reg [9:0] buffer;
     reg [3:0] buffer_index; // Counter to keep track of where to store the Signals bits
     reg bufferSent;
+    
+    initial begin
+        SentFlag = 1;
+    end
+    
     always @ ( Signals, Clear, Reset) begin
         if( Clear || Reset || bufferSent) begin
             buffer <= 10'b1111111111; // Clear the buffer
@@ -28,11 +33,13 @@ module sequence_producer(
             EncSeq <= buffer;
             Space_EndSeqbar <= 1;
             bufferSent <= 1;
+            SentFlag = ~SentFlag; // Toggle so Seq Separator can detect when sequence is repeated
         end
         else if(Signals == 3'b011) begin // EndSeq
             EncSeq <= buffer;
             Space_EndSeqbar <= 0;
             bufferSent <= 1;
+            SentFlag = ~SentFlag; // Toggle so Seq Separator can detect when sequence is repeated
         end
     end
 endmodule

@@ -4,7 +4,8 @@
 
 module sequence_separator(
     input [9:0] EncSeq,
-    input Space_EndSeqbar,
+    input Space_EndSeqbar, SentFlag,
+    output reg sentFlag,
     output reg [9:0] FirstSeq, SecSeq
     );
     always @ (*) begin
@@ -27,5 +28,6 @@ module sequence_separator(
                 {SecSeq[9],SecSeq[8]} <= 2'b10; // Space
             end
         end
+        sentFlag <= SentFlag;
     end
 endmodule

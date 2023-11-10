@@ -8,10 +8,11 @@ module test_seq_sep();
     morse_code_encoder MCE(Dot, Dash, Space, EndSeq, Signals);
     reg Clear, Reset;
     wire [9:0] EncSeq;
-    wire Space_EndSeqbar;
-    sequence_producer SP (Signals, Clear, Reset, EncSeq, Space_EndSeqbar);
+    wire Space_EndSeqbar, SentFlag;
+    sequence_producer SP (Signals, Clear, Reset, EncSeq, Space_EndSeqbar, SentFlag);
+    wire sentFlag;
     wire [9:0] FirstSeq, SecSeq;
-    sequence_separator SS ( EncSeq, Space_EndSeqbar, FirstSeq, SecSeq);
+    sequence_separator SS ( EncSeq, Space_EndSeqbar, SentFlag, sentFlag, FirstSeq, SecSeq);
     
     initial begin
         Clear = 1'b1; #10

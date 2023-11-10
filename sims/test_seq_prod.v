@@ -2,14 +2,14 @@
 
 // Test bench for Sequence Producer
 
-module test_pwm();
+module test_seq_prod();
     reg Dot, Dash, Space, EndSeq;
     wire [2:0] Signals;
     morse_code_encoder MCE(Dot, Dash, Space, EndSeq, Signals);
     reg Clear, Reset;
     wire [9:0] EncSeq;
-    wire Space_EndSeqbar;
-    sequence_producer SP (Signals, Clear, Reset, EncSeq, Space_EndSeqbar);
+    wire Space_EndSeqbar, SentFlag;
+    sequence_producer SP (Signals, Clear, Reset, EncSeq, Space_EndSeqbar, SentFlag);
     
     initial begin
         Clear = 1'b1; #10
@@ -64,6 +64,5 @@ module test_pwm();
         // Send a EndSeq Signal
         EndSeq = 1'b1; #10;
         EndSeq = 1'b0; #10;
-    end
-    
+    end    
 endmodule
