@@ -15,13 +15,7 @@ module sequence_storage(
         end
     end
     
-    always @ (enter) begin
-        if (enter) begin
-            o_sequence <= storage; // Output storage content
-        end
-    end
-    
-    always @ (sentFlag) begin // Save sequences when flag is signaled
+    always @ (sentFlag, enter) begin // Save sequences when flag is signaled
         if (shift_counter < 16) begin
             if({first_seq[9],first_seq[8]} != 2'b11) begin // Check if the first sequence is valid
                 storage = storage << 10;
@@ -35,4 +29,10 @@ module sequence_storage(
             end
         end
      end
+     
+     always @ (enter) begin
+        if (enter) begin
+            o_sequence <= storage; // Output storage content
+        end
+    end
 endmodule
