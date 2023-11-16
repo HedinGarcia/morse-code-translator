@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module Morse_Code_Translator(
     input [159:0] sequences,
     output reg[127:0] letters

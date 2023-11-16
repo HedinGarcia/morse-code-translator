@@ -8,6 +8,7 @@ module sequence_separator(
     output reg sentFlag,
     output reg [9:0] FirstSeq, SecSeq
     );
+    
     always @ (*) begin
         if (Space_EndSeqbar == 0 ) begin // EndSeq was pressed
             FirstSeq <= EncSeq;

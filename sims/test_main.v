@@ -1,20 +1,9 @@
 `timescale 1ns / 1ps
 
-module test_seq_store2();
-    reg Dot, Dash, Space, EndSeq, Enter;
-    wire [2:0] Signals;
-    morse_code_encoder MCE(Dot, Dash, Space, EndSeq, Signals);
-    reg Clear, Reset;
-    wire [9:0] EncSeq;
-    wire Space_EndSeqbar, SentFlagPP;
-    sequence_producer SP (Signals, Clear, Reset, EncSeq, Space_EndSeqbar, SentFlagPP);
-    wire sentFlagSS;
-    wire [9:0] FirstSeq, SecSeq;
-    sequence_separator SS ( EncSeq, Space_EndSeqbar, SentFlagPP, sentFlagSS, FirstSeq, SecSeq);
-    wire [159:0] o_sequence;
-    sequence_storage SeqStor (Reset, Enter, sentFlagSS, FirstSeq, SecSeq, o_sequence);
-    wire [127:0] letters;
-    Morse_Code_Translator M_Translator(o_sequence, letters);
+module test_main();
+    reg Dot, Dash, Space, EndSeq, Enter, Clear, Reset;
+    wire [127:0] translatedCharacters;
+    morse_code_main Main (Dot, Dash, Space, EndSeq, Enter, Clear, Reset, translatedCharacters);
     
     initial begin
         Reset = 1'b1; #10

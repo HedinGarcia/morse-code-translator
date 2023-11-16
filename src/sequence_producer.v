@@ -24,8 +24,8 @@ module sequence_producer(
         end
         if (Signals == 3'b000 || Signals == 3'b001) begin // Dot or Dash
             if (buffer_index > 0) begin
-                buffer[buffer_index-1] = Signals[1];
-                buffer[buffer_index-2] = Signals[0];
+                buffer[buffer_index-1] <= Signals[1];
+                buffer[buffer_index-2] <= Signals[0];
                 buffer_index <= buffer_index - 2;
             end
         end
