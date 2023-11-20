@@ -11,10 +11,10 @@ module test_seq_store2();
     wire sentFlagSS;
     wire [9:0] FirstSeq, SecSeq;
     sequence_separator SS ( EncSeq, Space_EndSeqbar, SentFlagPP, sentFlagSS, FirstSeq, SecSeq);
-    wire [159:0] o_sequence;
-    sequence_storage SeqStor (Reset, Enter, sentFlagSS, FirstSeq, SecSeq, o_sequence);
-    wire [127:0] letters;
-    Morse_Code_Translator M_Translator(o_sequence, letters);
+    wire [159:0] store_seqs;
+    sequence_storage SeqStor (Reset, Enter, sentFlagSS, FirstSeq, SecSeq, store_seqs);
+    wire [127:0] translated_characters;
+    sequence_translator M_Translator(store_seqs, translated_characters);
     
     initial begin
         Reset = 1'b1; #10

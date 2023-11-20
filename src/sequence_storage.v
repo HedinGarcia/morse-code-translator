@@ -1,7 +1,7 @@
 module sequence_storage(
     input reset, enter, sentFlag,  // Inputs Reset, Enter, and SentFlag
     input [9:0] first_seq, sec_seq,  // Input sequences from sequence separator module
-    output reg [159:0] o_sequence  // Output of storage content
+    output reg [159:0] store_seqs  // Output of storage content
     );
     
     integer i = 0, j = 0;
@@ -24,7 +24,7 @@ module sequence_storage(
             end
         end
         if (enter) begin
-            o_sequence <= storage; // Output storage content
+            store_seqs <= storage; // Output storage content
         end
      end
 endmodule

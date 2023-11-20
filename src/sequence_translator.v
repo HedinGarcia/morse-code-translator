@@ -1,8 +1,8 @@
 `timescale 1ns / 1ps
 
-module Morse_Code_Translator(
+module sequence_translator(
     input [159:0] sequences,
-    output reg[127:0] letters
+    output reg[127:0] translated_characters
     );
     
     integer i;
@@ -213,6 +213,6 @@ module Morse_Code_Translator(
             temp_seq=10'b0;  
             end  
         end
-        letters<=temp_letters;
+        translated_characters<=temp_letters;
     end
 endmodule
