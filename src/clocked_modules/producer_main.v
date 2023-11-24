@@ -7,7 +7,7 @@ module producer_main(
     output spa_end, sent);
     
     // Sound Generator
-    sound_generator(Dot, Dash, dot_buzzer, dash_buzzer);
+    sound_generator Sound (Dot, Dash, dot_buzzer, dash_buzzer);
     // Encoder
     wire [2:0] Signals;
     morse_code_encoder MCE(Dot, Dash, Space, EndSeq, Signals);
@@ -15,5 +15,5 @@ module producer_main(
     wire newClk;
     DivideBy10Counter clkdiv(clk, newClk);
     // Producer
-    sequence_producer SP (newClk, Signals, Clear, Reset, outputbits, spa_end, sent);
+    sequence_producer Producer (newClk, Signals, Clear, Reset, outputbits, spa_end, sent);
 endmodule
