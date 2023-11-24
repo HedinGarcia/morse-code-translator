@@ -29,6 +29,11 @@ set_property IOSTANDARD LVCMOS33 [get_ports Reset]
 #set_property IOSTANDARD LVCMOS33 [get_ports Enter]
 #set_property PULLDOWN true [get_ports Enter]
 
+set_property PACKAGE_PIN J1 [get_ports dot_buzzer]
+set_property PACKAGE_PIN L2 [get_ports dash_buzzer]
+set_property IOSTANDARD LVCMOS33 [get_ports dot_buzzer]
+set_property IOSTANDARD LVCMOS33 [get_ports dash_buzzer]
+
 set_property PACKAGE_PIN L1 [get_ports {outputbits[9]}]
 set_property PACKAGE_PIN P1 [get_ports {outputbits[8]}]
 set_property PACKAGE_PIN N3 [get_ports {outputbits[7]}]
