@@ -2,6 +2,77 @@
 
 // Verilog module for the Sequence Producer in Morse Code Translator Project
 
+module sequence_producer(
+    input clk,
+    input [2:0] Signals,
+    input Clear, Reset, 
+    output reg [9:0] EncSeq = 0,
+    output reg Space_EndSeqbar = 0, SentFlag = 0
+    );
+    
+    reg [2:0] state = 3'b000; // State variable to represent the current state
+    parameter S0=3'b000, S1=3'b001, S2=3'b010, S3=3'b011, S4=3'b100, S5=3'b101, S6=3'b110, S7=3'b111;
+    reg [9:0] buffer = 10'b1111111111;
+
+    // Producer of Letter S or O
+    always @ (posedge clk) begin
+        if (Clear || Reset) begin
+                EncSeq <= 10'b1111111111; // Clear the sequence
+                state <= S0; // Reset the state
+                SentFlag = 0;
+        end
+        else begin
+            case(state)
+                S0: begin
+                        SentFlag = 0;
+                        if (Signals == 3'b000) begin // Dot
+                            state <= S1;
+                            EncSeq <= 10'b0011111111;
+                        end
+                        else if (Signals == 3'b001) begin // Dash
+                            state <= S1;
+                            EncSeq <= 10'b0111111111;
+                        end
+                    end
+                S1: begin
+                        SentFlag = 0;
+                        if (Signals == 3'b000) begin // Dot
+                            state <= S2;
+                            EncSeq <= 10'b0000111111;
+                        end
+                        else if (Signals == 3'b001) begin // Dash
+                            state <= S2;
+                            EncSeq <= 10'b0101111111;
+                        end
+                    end
+                S2: begin
+                        SentFlag = 0;
+                        if (Signals == 3'b000) begin // Dot
+                            state <= S3;
+                            EncSeq <= 10'b0000001111;
+                        end
+                        else if (Signals == 3'b001) begin // Dash
+                            state <= S3;
+                            EncSeq <= 10'b0101011111;
+                        end
+                    end
+                S3: begin
+                        if(Signals == 3'b010) begin // Space
+                                    state <= S0; // Go back to the start
+                                    Space_EndSeqbar <= 1; // Space was pressed
+                                    SentFlag <= 1; // So Separator can know which sequence to consider
+                                end
+                        else if(Signals == 3'b011) begin // EndSeq
+                                    state <= S0; // Go back to the start
+                                    Space_EndSeqbar <= 0; // EndSeq was pressed
+                                    SentFlag <= 1; // So Separator can know which sequence to consider
+                                end
+                    end
+            endcase
+        end
+    end
+endmodule
+
 //module sequence_producer(
 //    input clk,
 //    input Dot, Dash, Space, EndSeq,
@@ -78,73 +149,6 @@
 //        end
 //    end
 //endmodule
-
-module sequence_producer(
-    input clk,
-    input [2:0] Signals,
-    input Clear, Reset, 
-    output reg [9:0] EncSeq = 0,
-    output reg Space_EndSeqbar = 0, SentFlag = 0
-    );
-    
-    reg [2:0] state = 3'b000; // State variable to represent the current state
-    parameter S0=3'b000, S1=3'b001, S2=3'b010, S3=3'b011, S4=3'b100, S5=3'b101, S6=3'b110, S7=3'b111;
-    reg [9:0] buffer = 10'b1111111111;
-
-    // Producer of Letter S or O
-    always @ (posedge clk) begin
-        if (Clear || Reset) begin
-                EncSeq <= 10'b1111111111; // Clear the sequence
-                state <= S0; // Reset the state
-        end
-        else begin
-            case(state)
-                S0: begin
-                        if (Signals == 3'b000) begin // Dot
-                            state <= S1;
-                            EncSeq <= 10'b0011111111;
-                        end
-                        else if (Signals == 3'b001) begin // Dash
-                            state <= S1;
-                            EncSeq <= 10'b0111111111;
-                        end
-                    end
-                S1: begin
-                        if (Signals == 3'b000) begin // Dot
-                            state <= S2;
-                            EncSeq <= 10'b0000111111;
-                        end
-                        else if (Signals == 3'b001) begin // Dash
-                            state <= S2;
-                            EncSeq <= 10'b0101111111;
-                        end
-                    end
-                S2: begin
-                        if (Signals == 3'b000) begin // Dot
-                            state <= S3;
-                            EncSeq <= 10'b0000001111;
-                        end
-                        else if (Signals == 3'b001) begin // Dash
-                            state <= S3;
-                            EncSeq <= 10'b0101011111;
-                        end
-                    end
-                S3: begin
-                        if(Signals == 3'b010) begin // Space
-                                    state <= S0; // Go back to the start
-                                    Space_EndSeqbar <= 1; // Space was pressed
-                                    SentFlag <= ~SentFlag; // Toggle so Seq Separator can detect when sequence is repeated
-                                end
-                        else if(Signals == 3'b011) begin // EndSeq
-                                    state <= S0; // Go back to the start
-                                    Space_EndSeqbar <= 0; // EndSeq was pressed
-                                    SentFlag <= ~SentFlag; // Toggle so Seq Separator can detect when sequence is repeated
-                                end
-                    end
-            endcase
-        end
-    end
-endmodule
 
 //module sequence_producer(
 //    input clk,
