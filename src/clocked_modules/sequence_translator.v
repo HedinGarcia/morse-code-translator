@@ -1,14 +1,11 @@
 `timescale 1ns / 1ps
 
-//if ( sequences[29:20] == 10'b0000001111 && sequences[19:10] == 10'b0101011111 && sequences[9:0] == 10'b0000001111) begin
-                
-//            end
-
 module sequence_translator(
     input clk,
     input [29:0] sequences,
     input storage_sent,
-    output reg[23:0] translated_characters = 0
+    output reg[23:0] translated_characters = 0,
+    output reg transmit = 0
     );
 
     always @ (posedge clk) begin
@@ -28,7 +25,9 @@ module sequence_translator(
                 10'b0000001111 :  translated_characters[7:0] = 8'b01010011; // S
                 10'b1111111111 :  translated_characters[7:0] = 8'b00000000; //Invalid sequence (null)
             endcase
+            transmit = 1; // Let transmitter know when to display the characters
         end
+        else transmit = 0;
     end
 endmodule
 
