@@ -15,9 +15,6 @@ module morse_code_main(
     // Encoder
     wire [2:0] Signals;
     morse_code_encoder MCE(Dot, Dash, Space, EndSeq, Signals);
-    // Clock Divider
-//    wire newClk;
-//    DivideBy10Counter clkdiv(clk, newClk);
     // Producer
     wire [9:0] EncSeq;
     wire spa_end;
@@ -28,13 +25,11 @@ module morse_code_main(
     sequence_separator Separator(clk, EncSeq, spa_end, sent, sentFlagSep, FirstSeq, SecSeq);
     // Storage
     wire [29:0] store_seqs;
-//    wire storageSent;
     sequence_storage Storage(clk, Reset, Enter, sentFlagSep, FirstSeq, SecSeq, store_seqs, storageSent);
     // Translator
     wire [23:0] translated_characters;
     wire transmit;
     sequence_translator Translator (clk, store_seqs, storageSent,translated_characters, transmit);
     // Transmitter
-    // TODO: Maybe try the original clock
     Transmitter UARTTransmitter(clk, translated_characters, transmit, Reset,  TxD);
 endmodule
